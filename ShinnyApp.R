@@ -5,23 +5,21 @@ ui <- fluidPage(
   selectInput(
     inputId = "selected_region",
     label = "Region:",
-    choices = "Yorke Peninsula"
+    choices = c("Yorke Peninsula", "Adelaide", "Adelaide Hills", "Australia's Coral Coast", "Australia's Golden Outback"  )
   ),
-  plotOutput("t_plot"),
+  
   selectInput(
     inputId = "selected_purpose",
     label = "Select Purpose:",
     choices = c("Business", "Holiday", "Other", "Visiting")
-  )
+  ),
+  plotOutput("t_plot")
 )
 
 server <- function(input, output, session) {
   output$t_plot <- renderPlot({
-    plot_td <- tourism[
-      tourism$Region == "selected_region"
-    ]
+    plot_td <- subset(tourism, Region == input$selected_region & Purpose == input$selected_purpose)
     autoplot(plot_td)
-    output$selected_purpose <-renderPrint({input$select})
   })
 }
 
