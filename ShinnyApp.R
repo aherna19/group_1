@@ -7,8 +7,12 @@ ui <- fluidPage(
     label = "Region:",
     choices = "Yorke Peninsula"
   ),
-  plotOutput("t_plot")
-  
+  plotOutput("t_plot"),
+  selectInput(
+    inputId = "selected_purpose",
+    label = "Select Purpose:",
+    choices = c("Business", "Holiday", "Other", "Visiting")
+  )
 )
 
 server <- function(input, output, session) {
@@ -17,6 +21,7 @@ server <- function(input, output, session) {
       tourism$Region == "selected_region"
     ]
     autoplot(plot_td)
+    output$selected_purpose <-renderPrint({input$select})
   })
 }
 
